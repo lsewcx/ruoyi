@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysFileInfo1Mapper">
+    
+    <resultMap type="SysFileInfo1" id="SysFileInfo1Result">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="fileVersion"    column="file_version"    />
+        <result property="fileGithub"    column="file_github"    />
+        <result property="fileRows"    column="file_rows"    />
+        <result property="fileXinagsidu"    column="file_xinagsidu"    />
+    </resultMap>
+
+    <sql id="selectSysFileInfo1Vo">
+        select file_id, file_name, file_path, file_version, file_github, file_rows, file_xinagsidu from sys_file_info1
+    </sql>
+
+    <select id="selectSysFileInfo1List" parameterType="SysFileInfo1" resultMap="SysFileInfo1Result">
+        <include refid="selectSysFileInfo1Vo"/>
+        <where>  
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+            <if test="fileVersion != null  and fileVersion != ''"> and file_version = #{fileVersion}</if>
+            <if test="fileGithub != null  and fileGithub != ''"> and file_github = #{fileGithub}</if>
+            <if test="fileRows != null  and fileRows != ''"> and file_rows = #{fileRows}</if>
+            <if test="fileXinagsidu != null  and fileXinagsidu != ''"> and file_xinagsidu = #{fileXinagsidu}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysFileInfo1ByFileId" parameterType="Long" resultMap="SysFileInfo1Result">
+        <include refid="selectSysFileInfo1Vo"/>
+        where file_id = #{fileId}
+    </select>
+
+    <select id="getfilepath" parameterType="String" resultMap="SysFileInfo1Result">
+        <include refid="selectSysFileInfo1Vo"/>
+        where file_path = #{filepath}
+    </select>
+        
+    <insert id="insertSysFileInfo1" parameterType="SysFileInfo1" useGeneratedKeys="true" keyProperty="fileId">
+        insert into sys_file_info1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">file_name,</if>
+            <if test="filePath != null">file_path,</if>
+            <if test="fileVersion != null">file_version,</if>
+            <if test="fileGithub != null">file_github,</if>
+            <if test="fileRows != null">file_rows,</if>
+            <if test="fileXinagsidu != null">file_xinagsidu,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">#{fileName},</if>
+            <if test="filePath != null">#{filePath},</if>
+            <if test="fileVersion != null">#{fileVersion},</if>
+            <if test="fileGithub != null">#{fileGithub},</if>
+            <if test="fileRows != null">#{fileRows},</if>
+            <if test="fileXinagsidu != null">#{fileXinagsidu},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysFileInfo1" parameterType="SysFileInfo1">
+        update sys_file_info1
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="filePath != null">file_path = #{filePath},</if>
+            <if test="fileVersion != null">file_version = #{fileVersion},</if>
+            <if test="fileGithub != null">file_github = #{fileGithub},</if>
+            <if test="fileRows != null">file_rows = #{fileRows},</if>
+            <if test="fileXinagsidu != null">file_xinagsidu = #{fileXinagsidu},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteSysFileInfo1ByFileId" parameterType="Long">
+        delete from sys_file_info1 where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteSysFileInfo1ByFileIds" parameterType="String">
+        delete from sys_file_info1 where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+</mapper>
