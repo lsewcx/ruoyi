@@ -5,6 +5,7 @@ export function listInfo1(query) {
   return request({
     url: '/system/info1/list',
     method: 'get',
+    timeout: 10000,
     params: query
   })
 }
@@ -22,6 +23,7 @@ export function addInfo1(data) {
   return request({
     url: '/system/info1',
     method: 'post',
+    timeout: 100000,
     data: data
   })
 }

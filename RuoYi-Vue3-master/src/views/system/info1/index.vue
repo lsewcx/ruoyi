@@ -60,7 +60,7 @@
           <el-input v-model="form.fileName" placeholder="请输入文件名称" />
         </el-form-item>
         <el-form-item label="文件路径" prop="filePath">
-          <el-input v-model="form.filePath" placeholder="请输入文件路径" />
+          <el-input id="file" v-model="form.filePath" placeholder="请输入文件路径" />
         </el-form-item>
         <el-form-item label="项目版本" prop="fileVersion">
           <el-input v-model="form.fileVersion" placeholder="请输入开源项目版本" />
@@ -125,6 +125,8 @@
       this.getList();
     },
     methods: {
+
+
       /** 查询文件信息1列表 */
       getList() {
         this.loading = true;

@@ -56,8 +56,8 @@ public class SysFileInfo1ServiceImpl implements ISysFileInfo1Service
     @Override
     public int insertSysFileInfo1(SysFileInfo1 sysFileInfo1) throws IOException {
         a=Zip.getstr(sysFileInfo1.filePath);
-        b=Zip.getstr1(sysFileInfo1.filePath);
-        sysFileInfo1.fileRows= String.valueOf(Zip.getrow(sysFileInfo1.filePath));
+        b=Zip.getstr1("C:\\Users\\lsewcx\\Desktop\\javaxiangmu.zip\\");
+        sysFileInfo1.fileRows= String.valueOf(Zip.getrow());
         sysFileInfo1.fileXinagsidu= gonneng.getSimilarity(a,b);
         return sysFileInfo1Mapper.insertSysFileInfo1(sysFileInfo1);
     }
