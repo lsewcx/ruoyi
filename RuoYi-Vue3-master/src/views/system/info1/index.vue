@@ -78,19 +78,19 @@
       </div>
     </el-dialog>
   </div>
+
 </template>
 
 <script>
   import { listInfo1, getInfo1, delInfo1, addInfo1, updateInfo1 } from "@/api/system/info1";
   import { ref, watch, computed } from 'vue'
-
   var res;
   var fileID;
   export default {
     name: "Info1",
     data() {
       return {
-        fileID: 0,
+        fileID: null,
         number: "",
         // 遮罩层
         loading: true,
@@ -111,6 +111,9 @@
         title: "",
         // 是否显示弹出层
         open: false,
+        param: {
+          fileID: 0,
+        },
         // 查询参数
         queryParams: {
           pageNum: 1,
@@ -138,7 +141,8 @@
     methods: {
 
       push() {
-        this.$router.push({ path: "/tool/build" })
+        console.log(this.param.fileID)
+        this.$router.push({ path: "/tool/build", query: { formdata: this.param.fileID } })
       },
 
 
@@ -190,8 +194,10 @@
         listInfo1(this.queryParams).then(response => {
           var list = response.rows
           var filterList = list.filter(val => val.fileId === a)
-          res = filterList.map(item => item.fileXinagsidu);
+          res = filterList.map(item => item.fileXinagsidu)
           var number = parseInt(res)
+          number = number / 100
+          this.param.fileID = number
         });
         this.single = selection.length !== 1
         this.multiple = !selection.length

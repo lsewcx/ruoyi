@@ -9,18 +9,19 @@
 
 <script>
    import * as echarts from "echarts";
-
+   var xiangsidu
    export default {
       data() {
          return {
+            xiangsidu: 0,
             myChart: {},
             pieData: [
                {
-                  value: 0.94,
+                  value: this.getfileID(),
                   name: "开源代码占比"
                },
                {
-                  value: 0.06,
+                  value: 1 - this.getfileID(),
                   name: "个人代码占比"
                }
             ],
@@ -31,11 +32,18 @@
       mounted() {
          this.initDate(); //数据初始化
          this.initEcharts();
+         this.getfileID();
       },
 
 
 
+
       methods: {
+         getfileID() {
+            var xiangsidu = this.$route.query.formdata
+            return xiangsidu
+         },
+
          push1() {
             this.$router.go(-1);
          },
@@ -45,6 +53,7 @@
                // this.yData =this.xData[i]*this.xData[i];
                this.pieName[i] = this.pieData[i].name;
             }
+            console.log(xiangsidu)
          },
          initEcharts() {
             // 饼图
