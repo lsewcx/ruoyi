@@ -191,7 +191,8 @@
           var list = response.rows
           var filterList = list.filter(val => val.fileId === a)
           res = filterList.map(item => item.fileXinagsidu);
-          console.log(res)
+          var number=parseInt(res)
+          console.log(number)
         });
         this.single = selection.length !== 1
         this.multiple = !selection.length
