@@ -27,6 +27,9 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['system:info1:export']">导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="push">代码分析</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -79,12 +82,16 @@
 
 <script>
   import { listInfo1, getInfo1, delInfo1, addInfo1, updateInfo1 } from "@/api/system/info1";
-  import { ref } from 'vue'
+  import { ref, watch, computed } from 'vue'
 
+  var res;
+  var fileID;
   export default {
     name: "Info1",
     data() {
       return {
+        fileID: 0,
+        number: "",
         // 遮罩层
         loading: true,
         // 选中数组
@@ -99,6 +106,7 @@
         total: 0,
         // 文件信息1表格数据
         info1List: [],
+        list: [],
         // 弹出层标题
         title: "",
         // 是否显示弹出层
@@ -121,16 +129,27 @@
         }
       };
     },
+
+
+
     created() {
       this.getList();
     },
     methods: {
+
+      push() {
+        this.$router.push({ path: "/tool/build" })
+      },
 
 
       /** 查询文件信息1列表 */
       getList() {
         this.loading = true;
         listInfo1(this.queryParams).then(response => {
+          var list = response.rows
+          var filterList = list.filter(val => val.fileId === fileID)
+          res = filterList.map(item => item.fileXinagsidu);
+          console.log(res)
           this.info1List = response.rows;
           this.total = response.total;
           this.loading = false;
@@ -167,6 +186,13 @@
       // 多选框选中数据
       handleSelectionChange(selection) {
         this.ids = selection.map(item => item.fileId)
+        var a = this.ids[0]
+        listInfo1(this.queryParams).then(response => {
+          var list = response.rows
+          var filterList = list.filter(val => val.fileId === a)
+          res = filterList.map(item => item.fileXinagsidu);
+          console.log(res)
+        });
         this.single = selection.length !== 1
         this.multiple = !selection.length
       },
@@ -225,3 +251,9 @@
     }
   };
 </script>
+
+<style scope>
+  .button {
+    text-align: center;
+  }
+</style>
