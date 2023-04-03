@@ -1,12 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="文件名称" prop="fileName">
-        <el-input v-model="queryParams.fileName" placeholder="请输入文件名称" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="文件路径" prop="filePath">
-        <el-input v-model="queryParams.filePath" placeholder="请输入文件路径" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -36,8 +30,11 @@
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="文件id" align="center" prop="fileId" />
-      <el-table-column label="文件名称" align="center" prop="fileName" />
-      <el-table-column label="文件路径" align="center" prop="filePath" />
+      <el-table-column label="文字" align="center" prop="fileWord">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_oper_type" :value="scope.row.fileWord" />
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
@@ -51,15 +48,56 @@
     <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改文件信息对话框 -->
+    <!-- 添加或修改word上传对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body v-model="open">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="文件名称" prop="fileName">
-          <el-input v-model="form.fileName" placeholder="请输入文件名称" />
+        <el-form-item label="文字" prop="fileWord">
+          <el-input v-model="form.fileWord" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="文件路径" prop="filePath">
-          <el-input v-model="form.filePath" placeholder="请输入文件路径" type="file" />
-        </el-form-item>
+        <el-divider content-position="center">代码分析信息</el-divider>
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddSysFileInfo1">添加</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDeleteSysFileInfo1">删除</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="sysFileInfo1List" :row-class-name="rowSysFileInfo1Index"
+          @selection-change="handleSysFileInfo1SelectionChange" ref="sysFileInfo1">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column label="序号" align="center" prop="index" width="50" />
+          <el-table-column label="文件名称" prop="fileName" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.fileName" placeholder="请输入文件名称" />
+            </template>
+          </el-table-column>
+          <el-table-column label="文件路径" prop="filePath" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.filePath" placeholder="请输入文件路径" />
+            </template>
+          </el-table-column>
+          <el-table-column label="开源项目版本" prop="fileVersion" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.fileVersion" placeholder="请输入开源项目版本" />
+            </template>
+          </el-table-column>
+          <el-table-column label="托管地址" prop="fileGithub" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.fileGithub" placeholder="请输入托管地址" />
+            </template>
+          </el-table-column>
+          <el-table-column label="代码行数" prop="fileRows" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.fileRows" placeholder="请输入代码行数" />
+            </template>
+          </el-table-column>
+          <el-table-column label="代码相似度" prop="fileXinagsidu" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.fileXinagsidu" placeholder="请输入代码相似度" />
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -80,6 +118,8 @@
         loading: true,
         // 选中数组
         ids: [],
+        // 子表选中数据
+        checkedSysFileInfo1: [],
         // 非单个禁用
         single: true,
         // 非多个禁用
@@ -88,8 +128,10 @@
         showSearch: true,
         // 总条数
         total: 0,
-        // 文件信息表格数据
+        // word上传表格数据
         infoList: [],
+        // 代码分析表格数据
+        sysFileInfo1List: [],
         // 弹出层标题
         title: "",
         // 是否显示弹出层
@@ -98,8 +140,7 @@
         queryParams: {
           pageNum: 1,
           pageSize: 10,
-          fileName: null,
-          filePath: null
+          fileWord: null
         },
         // 表单参数
         form: {},
@@ -112,7 +153,7 @@
       this.getList();
     },
     methods: {
-      /** 查询文件信息列表 */
+      /** 查询word上传列表 */
       getList() {
         this.loading = true;
         listInfo(this.queryParams).then(response => {
@@ -130,9 +171,9 @@
       reset() {
         this.form = {
           fileId: null,
-          fileName: null,
-          filePath: null
+          fileWord: null
         };
+        this.sysFileInfo1List = [];
         this.resetForm("form");
       },
       /** 搜索按钮操作 */
@@ -155,7 +196,7 @@
       handleAdd() {
         this.reset();
         this.open = true;
-        this.title = "添加文件信息";
+        this.title = "添加word上传";
       },
       /** 修改按钮操作 */
       handleUpdate(row) {
@@ -163,14 +204,16 @@
         const fileId = row.fileId || this.ids
         getInfo(fileId).then(response => {
           this.form = response.data;
+          this.sysFileInfo1List = response.data.sysFileInfo1List;
           this.open = true;
-          this.title = "修改文件信息";
+          this.title = "修改word上传";
         });
       },
       /** 提交按钮 */
       submitForm() {
         this.$refs["form"].validate(valid => {
           if (valid) {
+            this.form.sysFileInfo1List = this.sysFileInfo1List;
             if (this.form.fileId != null) {
               updateInfo(this.form).then(response => {
                 this.$modal.msgSuccess("修改成功");
@@ -190,12 +233,43 @@
       /** 删除按钮操作 */
       handleDelete(row) {
         const fileIds = row.fileId || this.ids;
-        this.$modal.confirm('是否确认删除文件信息编号为"' + fileIds + '"的数据项？').then(function () {
+        this.$modal.confirm('是否确认删除word上传编号为"' + fileIds + '"的数据项？').then(function () {
           return delInfo(fileIds);
         }).then(() => {
           this.getList();
           this.$modal.msgSuccess("删除成功");
         }).catch(() => { });
+      },
+      /** 代码分析序号 */
+      rowSysFileInfo1Index({ row, rowIndex }) {
+        row.index = rowIndex + 1;
+      },
+      /** 代码分析添加按钮操作 */
+      handleAddSysFileInfo1() {
+        let obj = {};
+        obj.fileName = "";
+        obj.filePath = "";
+        obj.fileVersion = "";
+        obj.fileGithub = "";
+        obj.fileRows = "";
+        obj.fileXinagsidu = "";
+        this.sysFileInfo1List.push(obj);
+      },
+      /** 代码分析删除按钮操作 */
+      handleDeleteSysFileInfo1() {
+        if (this.checkedSysFileInfo1.length == 0) {
+          this.$modal.msgError("请先选择要删除的代码分析数据");
+        } else {
+          const sysFileInfo1List = this.sysFileInfo1List;
+          const checkedSysFileInfo1 = this.checkedSysFileInfo1;
+          this.sysFileInfo1List = sysFileInfo1List.filter(function (item) {
+            return checkedSysFileInfo1.indexOf(item.index) == -1
+          });
+        }
+      },
+      /** 复选框选中数据 */
+      handleSysFileInfo1SelectionChange(selection) {
+        this.checkedSysFileInfo1 = selection.map(item => item.index)
       },
       /** 导出按钮操作 */
       handleExport() {

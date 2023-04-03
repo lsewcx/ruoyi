@@ -32,6 +32,7 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+    <!-- 新增 -->
 
     <el-table v-loading="loading" :data="info1List" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />

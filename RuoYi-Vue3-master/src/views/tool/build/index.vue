@@ -45,7 +45,7 @@
          },
 
          push1() {
-            this.$router.go(-1);
+            this.$router.push({ path: "/info1" });
          },
          initDate() {
             for (let i = 0; i < this.pieData.length; i++) {

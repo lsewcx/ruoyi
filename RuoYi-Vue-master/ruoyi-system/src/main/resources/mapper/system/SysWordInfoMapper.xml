@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysWordInfoMapper">
+    
+    <resultMap type="SysWordInfo" id="SysWordInfoResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileWord"    column="file_word"    />
+    </resultMap>
+
+    <sql id="selectSysWordInfoVo">
+        select file_id, file_word from sys_word_info
+    </sql>
+
+    <select id="selectSysWordInfoList" parameterType="SysWordInfo" resultMap="SysWordInfoResult">
+        <include refid="selectSysWordInfoVo"/>
+        <where>  
+            <if test="fileWord != null  and fileWord != ''"> and file_word = #{fileWord}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysWordInfoByFileId" parameterType="Long" resultMap="SysWordInfoResult">
+        <include refid="selectSysWordInfoVo"/>
+        where file_id = #{fileId}
+    </select>
+        
+    <insert id="insertSysWordInfo" parameterType="SysWordInfo" useGeneratedKeys="true" keyProperty="fileId">
+        insert into sys_word_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileWord != null">file_word,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileWord != null">#{fileWord},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysWordInfo" parameterType="SysWordInfo">
+        update sys_word_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileWord != null">file_word = #{fileWord},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteSysWordInfoByFileId" parameterType="Long">
+        delete from sys_word_info where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteSysWordInfoByFileIds" parameterType="String">
+        delete from sys_word_info where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+</mapper>
