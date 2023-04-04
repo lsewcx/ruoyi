@@ -78,12 +78,13 @@ public class CommonController
         try
         {
             // 上传文件路径
-            String filePath = RuoYiConfig.getUploadPath();
+            String filePath = RuoYiConfig.getUploadPath()+file.getName();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
+            filePath+=fileName.substring(12,fileName.length());
             String url = serverConfig.getUrl() + fileName;
             AjaxResult ajax = AjaxResult.success();
-            ajax.put("url", url);
+            ajax.put("url",  filePath);
             ajax.put("fileName", fileName);
             ajax.put("newFileName", FileUtils.getName(fileName));
             ajax.put("originalFilename", file.getOriginalFilename());

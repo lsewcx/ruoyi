@@ -64,7 +64,7 @@
           <el-input v-model="form.fileName" placeholder="请输入文件名称" />
         </el-form-item>
         <el-form-item label="文件路径" prop="filePath">
-          <el-input id="file" v-model="form.filePath" placeholder="请输入文件路径" />
+          <file-upload id="file" v-model="form.filePath" placeholder="请输入文件路径" />
         </el-form-item>
         <el-form-item label="项目版本" prop="fileVersion">
           <el-input v-model="form.fileVersion" placeholder="请输入开源项目版本" />
@@ -73,7 +73,7 @@
           <el-input v-model="form.fileGithub" placeholder="请输入托管地址" />
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="button">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
@@ -221,6 +221,7 @@
       },
       /** 提交按钮 */
       submitForm() {
+        console.log(this.form.filePath)
         this.$refs["form"].validate(valid => {
           if (valid) {
             if (this.form.fileId != null) {

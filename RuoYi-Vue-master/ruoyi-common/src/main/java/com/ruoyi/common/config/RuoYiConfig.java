@@ -25,7 +25,7 @@ public class RuoYiConfig
     private boolean demoEnabled;
 
     /** 上传路径 */
-    private static String profile;
+    public static String profile;
 
     /** 获取地址开关 */
     private static boolean addressEnabled;
@@ -130,6 +130,6 @@ public class RuoYiConfig
      */
     public static String getUploadPath()
     {
-        return getProfile() + "/upload";
+        return getProfile();
     }
 }
