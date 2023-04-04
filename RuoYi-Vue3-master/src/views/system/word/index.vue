@@ -75,7 +75,25 @@
     created() {
       this.getList();
     },
+    mounted() {
+      this.getrows()
+      this.getxiangsidu()
+      this.getid()
+    },
     methods: {
+      getrows() {
+        var rows = this.$route.query.rows
+        return rows
+      },
+      getxiangsidu() {
+        var xiangsidu = this.$route.query.xiangsidu
+        return xiangsidu
+      },
+      getid() {
+        var id = this.$route.query.id
+        return id
+      },
+
       /** 查询word上传列表 */
       getList() {
         this.loading = true;
@@ -115,24 +133,27 @@
 
       /** 提交按钮 */
       submitForm() {
-        this.$refs["form"].validate(valid => {
-          if (valid) {
-            if (this.form.fileId != null) {
-              updateWord(this.form).then(response => {
-                this.$modal.msgSuccess("修改成功");
-                this.open = false;
-                this.getList();
-              });
-            } else {
-              addWord(this.form).then(response => {
-                this.$modal.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-              });
-            }
-          }
-        });
-        this.$router.push({ path: "/" })
+        console.log(this.getid())
+        console.log(this.getxiangsidu())
+        console.log(this.getrows())
+        // this.$refs["form"].validate(valid => {
+        //   if (valid) {
+        //     if (this.form.fileId != null) {
+        //       updateWord(this.form).then(response => {
+        //         this.$modal.msgSuccess("修改成功");
+        //         this.open = false;
+        //         this.getList();
+        //       });
+        //     } else {
+        //       addWord(this.form).then(response => {
+        //         this.$modal.msgSuccess("新增成功");
+        //         this.open = false;
+        //         this.getList();
+        //       });
+        //     }
+        //   }
+        // });
+        // this.$router.push({ path: "/jiage" })
       },
       /** 导出按钮操作 */
       handleExport() {

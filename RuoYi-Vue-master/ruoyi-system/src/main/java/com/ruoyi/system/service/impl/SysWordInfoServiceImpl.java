@@ -14,10 +14,12 @@ import com.ruoyi.system.controller.wordduqu;
  * @author lse
  * @date 2023-04-03
  */
+
+
 @Service
 public class SysWordInfoServiceImpl implements ISysWordInfoService 
 {
-    int num=0;
+
     @Autowired
     private SysWordInfoMapper sysWordInfoMapper;
 
@@ -54,7 +56,6 @@ public class SysWordInfoServiceImpl implements ISysWordInfoService
     @Override
     public int insertSysWordInfo(SysWordInfo sysWordInfo)
     {
-        num=wordduqu.Word(sysWordInfo.fileWord);
         return sysWordInfoMapper.insertSysWordInfo(sysWordInfo);
     }
 
@@ -93,4 +94,5 @@ public class SysWordInfoServiceImpl implements ISysWordInfoService
     {
         return sysWordInfoMapper.deleteSysWordInfoByFileId(fileId);
     }
+
 }

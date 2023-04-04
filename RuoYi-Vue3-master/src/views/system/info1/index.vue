@@ -30,6 +30,9 @@
       <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="push">代码分析</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button type="primary" plain icon="el-icon-download" size="mini" @click="jiage">价格计算</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
     <!-- 新增 -->
@@ -38,7 +41,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="文件id" align="center" prop="fileId" />
       <el-table-column label="文件名称" align="center" prop="fileName" />
-      <el-table-column label="文件路径" align="center" prop="filePath" />
+      <el-table-column label="文件路径" align="center" prop="filePath" :show-overflow-tooltip="true" />
       <el-table-column label="开源项目版本" align="center" prop="fileVersion" />
       <el-table-column label="托管地址" align="center" prop="fileGithub" :show-overflow-tooltip="true">
       </el-table-column>
@@ -87,10 +90,12 @@
   import { ref, watch, computed } from 'vue'
   var res;
   var fileID;
+  var a;
   export default {
     name: "Info1",
     data() {
       return {
+
         fileID: null,
         number: "",
         // 遮罩层
@@ -113,7 +118,10 @@
         // 是否显示弹出层
         open: false,
         param: {
+          id: 0,
           fileID: 0,
+          xiangsidu: 0,
+          fileRows: 0,
         },
         // 查询参数
         queryParams: {
@@ -141,6 +149,16 @@
     },
     methods: {
 
+      jiage() {
+        this.$router.push({
+          path: "/word", query: {
+            id: this.param.id,
+            xiangsidu: this.param.xiangsidu,
+            rows: this.param.fileRows,
+          }
+        })
+      },
+
       push() {
         console.log(this.param.fileID)
         this.$router.push({ path: "/tool/build", query: { formdata: this.param.fileID } })
@@ -154,7 +172,6 @@
           var list = response.rows
           var filterList = list.filter(val => val.fileId === fileID)
           res = filterList.map(item => item.fileXinagsidu);
-          console.log(res)
           this.info1List = response.rows;
           this.total = response.total;
           this.loading = false;
@@ -196,8 +213,13 @@
           var list = response.rows
           var filterList = list.filter(val => val.fileId === a)
           res = filterList.map(item => item.fileXinagsidu)
+          var c = filterList.map(item => item.fileRows)
+          var b = filterList.map(item => item.fileId)
           var number = parseInt(res)
           number = number / 100
+          this.param.id = b
+          this.param.xiangsidu = number
+          this.param.fileRows = c
           this.param.fileID = number
         });
         this.single = selection.length !== 1
