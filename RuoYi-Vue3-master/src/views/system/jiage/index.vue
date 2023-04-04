@@ -60,6 +60,7 @@
     <!-- 添加或修改最终价格计算对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body v-model="open">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -71,7 +72,6 @@
 
 <script>
   import { listJiage, getJiage, delJiage, addJiage, updateJiage } from "@/api/system/jiage";
-
   export default {
     name: "Jiage",
     data() {
@@ -103,30 +103,26 @@
           fileZuozhongjiage: null
         },
         // 表单参数
-        form: {},
+        form: {
+        },
         // 表单校验
         rules: {
         }
       };
     },
     created() {
-      this.getList();
+      this.getList()
     },
     mounted() {
-      this.getid();
-      this.getjiage();
       this.getrow();
+      this.getjiage();
       this.getxiangsidu();
     },
     methods: {
 
-      getid() {
-        var id = this.$route.query.fileId
-        return id;
-      },
       getrow() {
-        var row = this.$route.query.row
-        return row
+        var rows = this.$route.query.rows
+        return rows;
       },
       getxiangsidu() {
         var xiangsidu = this.$route.query.xiangsidu
@@ -141,6 +137,7 @@
 
       /** 查询最终价格计算列表 */
       getList() {
+        console.log(this.getjiage())
         this.loading = true;
         listJiage(this.queryParams).then(response => {
           this.jiageList = response.rows;
@@ -234,3 +231,9 @@
     }
   };
 </script>
+
+<style scoped>
+  .dialog-footer {
+    text-align: center;
+  }
+</style>

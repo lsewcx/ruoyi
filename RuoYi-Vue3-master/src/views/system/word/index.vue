@@ -18,29 +18,51 @@
     </el-row>
 
 
+    <el-table v-loading="loading" :data="wordList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="文件id" align="center" prop="fileId" />
+      <el-table-column label="word行数" align="center" prop="fileRows" />
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['system:word:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['system:word:remove']">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
 
     <!-- 添加或修改word上传对话框 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="文字" prop="fileWord">
-        <el-input :rows="20" v-model="form.fileWord" type="textarea" placeholder="请输入内容" />
-      </el-form-item>
-    </el-form>
-    <div slot="footer" class="button">
-      <el-button type="primary" @click="submitForm" calss="button">确 定</el-button>
-      <el-button @click="cancel">取 消</el-button>
-    </div>
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body v-model="open">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="文字" prop="fileWord">
+          <el-input :rows="20" v-model="form.fileWord" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="button">
+        <el-button type="primary" @click="submitForm" calss="button">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import { listWord, getWord, delWord, addWord, updateWord } from "@/api/system/word";
-  var res;
+  var res
   export default {
     name: "Word",
     data() {
       return {
+
+        param: {
+          c: 0,
+        },
+        res: null,
         // 遮罩层
         loading: true,
         // 选中数组
@@ -63,6 +85,7 @@
         queryParams: {
           pageNum: 1,
           pageSize: 10,
+          fileId: null,
           fileWord: null,
           fileRows: null
         },
@@ -95,14 +118,27 @@
         return id
       },
 
+      handleSelectionChange(selection) {
+        this.ids = selection.map(item => item.fileId)
+        var a = this.ids[0]
+        listWord(this.queryParams).then(response => {
+          var word = response.rows
+          var filterList = word.filter(val => val.fileId === a)
+          var c = filterList.map(item => item.fileRows)
+          this.param.c = c
+          console.log(this.param.c)
+        });
+        this.single = selection.length !== 1
+        this.multiple = !selection.length
+      },
+
       /** 查询word上传列表 */
       getList() {
         this.loading = true;
         listWord(this.queryParams).then(response => {
           var word = response.rows
-          var filterList = word.filter(val => val.fileId === word.length)
+          var filterList = word.filter(val => val.fileId === val.fileId)
           res = filterList.map(item => item.fileRows)
-          console.log(res)
           this.wordList = response.rows;
           this.total = response.total;
           this.loading = false;
@@ -150,13 +186,14 @@
             }
           }
         });
+        this.getList()
         this.$router.push({
+
           path: "/jiage",
           query: {
-            fileId: this.getid(),
-            row: this.getrows(),
+            rows: this.getrows(),
             xiangsidu: this.getxiangsidu(),
-            jiage: this.res
+            jiage: this.param.c
           }
         })
       },
