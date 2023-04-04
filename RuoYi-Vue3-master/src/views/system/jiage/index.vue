@@ -60,15 +60,6 @@
     <!-- 添加或修改最终价格计算对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body v-model="open">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="价格" prop="fileJiage">
-          <el-input v-model="form.fileJiage" placeholder="请输入价格" />
-        </el-form-item>
-        <el-form-item label="实际代码" prop="fileShijidaima">
-          <el-input v-model="form.fileShijidaima" placeholder="请输入实际代码量" />
-        </el-form-item>
-        <el-form-item label="最终价格" prop="fileZuozhongjiage">
-          <el-input v-model="form.fileZuozhongjiage" placeholder="请输入最终价格" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -121,7 +112,33 @@
     created() {
       this.getList();
     },
+    mounted() {
+      this.getid();
+      this.getjiage();
+      this.getrow();
+      this.getxiangsidu();
+    },
     methods: {
+
+      getid() {
+        var id = this.$route.query.fileId
+        return id;
+      },
+      getrow() {
+        var row = this.$route.query.row
+        return row
+      },
+      getxiangsidu() {
+        var xiangsidu = this.$route.query.xiangsidu
+        return xiangsidu
+      },
+      getjiage() {
+        var jiage = this.$route.query.jiage
+        return jiage
+      },
+
+
+
       /** 查询最终价格计算列表 */
       getList() {
         this.loading = true;

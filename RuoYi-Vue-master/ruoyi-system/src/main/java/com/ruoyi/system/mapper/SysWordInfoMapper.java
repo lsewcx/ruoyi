@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.SysWordInfo;
  * word上传Mapper接口
  * 
  * @author lse
- * @date 2023-04-03
+ * @date 2023-04-04
  */
 public interface SysWordInfoMapper 
 {

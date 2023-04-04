@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * word上传对象 sys_word_info
  * 
  * @author lse
- * @date 2023-04-03
+ * @date 2023-04-04
  */
 public class SysWordInfo extends BaseEntity
 {
@@ -21,6 +21,10 @@ public class SysWordInfo extends BaseEntity
     /** 文字 */
     @Excel(name = "文字")
     public String fileWord;
+
+    /** word行数 */
+    @Excel(name = "word行数")
+    public Integer fileRows;
 
     public void setFileId(Long fileId) 
     {
@@ -40,12 +44,22 @@ public class SysWordInfo extends BaseEntity
     {
         return fileWord;
     }
+    public void setFileRows(Integer fileRows) 
+    {
+        this.fileRows = fileRows;
+    }
+
+    public Integer getFileRows() 
+    {
+        return fileRows;
+    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("fileId", getFileId())
             .append("fileWord", getFileWord())
+            .append("fileRows", getFileRows())
             .toString();
     }
 }

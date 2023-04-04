@@ -36,7 +36,7 @@
 
 <script>
   import { listWord, getWord, delWord, addWord, updateWord } from "@/api/system/word";
-
+  var res;
   export default {
     name: "Word",
     data() {
@@ -63,7 +63,8 @@
         queryParams: {
           pageNum: 1,
           pageSize: 10,
-          fileWord: null
+          fileWord: null,
+          fileRows: null
         },
         // 表单参数
         form: {},
@@ -90,7 +91,7 @@
         return xiangsidu
       },
       getid() {
-        var id = this.$route.query.id
+        var id = this.$route.query.ID
         return id
       },
 
@@ -98,6 +99,10 @@
       getList() {
         this.loading = true;
         listWord(this.queryParams).then(response => {
+          var word = response.rows
+          var filterList = word.filter(val => val.fileId === word.length)
+          res = filterList.map(item => item.fileRows)
+          console.log(res)
           this.wordList = response.rows;
           this.total = response.total;
           this.loading = false;
@@ -112,18 +117,13 @@
       reset() {
         this.form = {
           fileId: null,
-          fileWord: null
+          fileWord: null,
+          fileRows: null
         };
         this.resetForm("form");
       },
 
 
-      // 多选框选中数据
-      handleSelectionChange(selection) {
-        this.ids = selection.map(item => item.fileId)
-        this.single = selection.length !== 1
-        this.multiple = !selection.length
-      },
       /** 新增按钮操作 */
       handleAdd() {
         this.reset();
@@ -133,27 +133,32 @@
 
       /** 提交按钮 */
       submitForm() {
-        console.log(this.getid())
-        console.log(this.getxiangsidu())
-        console.log(this.getrows())
-        // this.$refs["form"].validate(valid => {
-        //   if (valid) {
-        //     if (this.form.fileId != null) {
-        //       updateWord(this.form).then(response => {
-        //         this.$modal.msgSuccess("修改成功");
-        //         this.open = false;
-        //         this.getList();
-        //       });
-        //     } else {
-        //       addWord(this.form).then(response => {
-        //         this.$modal.msgSuccess("新增成功");
-        //         this.open = false;
-        //         this.getList();
-        //       });
-        //     }
-        //   }
-        // });
-        // this.$router.push({ path: "/jiage" })
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            if (this.form.fileId != null) {
+              updateWord(this.form).then(response => {
+                this.$modal.msgSuccess("修改成功");
+                this.open = false;
+                this.getList();
+              });
+            } else {
+              addWord(this.form).then(response => {
+                this.$modal.msgSuccess("新增成功");
+                this.open = false;
+                this.getList();
+              });
+            }
+          }
+        });
+        this.$router.push({
+          path: "/jiage",
+          query: {
+            fileId: this.getid(),
+            row: this.getrows(),
+            xiangsidu: this.getxiangsidu(),
+            jiage: this.res
+          }
+        })
       },
       /** 导出按钮操作 */
       handleExport() {

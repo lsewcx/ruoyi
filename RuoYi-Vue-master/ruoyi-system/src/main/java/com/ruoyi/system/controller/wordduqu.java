@@ -1,18 +1,13 @@
 package com.ruoyi.system.controller;
 
+import java.io.*;//导入java.io包中的所有类
+import java.util.Scanner;//导入java.util包中的Scanner类
+public class wordduqu {//类名
+    public static int Word(String str){
 
-import java.util.Scanner;
-public class wordduqu {
-    public static int Word(String filestring){
-        int n=0;
-        String a;
-        Scanner sc=new Scanner(System.in);
-        filestring=sc.next();
-        while((a= sc.next())!=null)
-        {
-            n++;
-        }
-        return n;
+        String[] lines = str.split("\r\n|\r|\n");
+
+        return lines.length;
+
     }
-
 }

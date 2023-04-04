@@ -12,14 +12,11 @@ import com.ruoyi.system.controller.wordduqu;
  * word上传Service业务层处理
  * 
  * @author lse
- * @date 2023-04-03
+ * @date 2023-04-04
  */
-
-
 @Service
 public class SysWordInfoServiceImpl implements ISysWordInfoService 
 {
-
     @Autowired
     private SysWordInfoMapper sysWordInfoMapper;
 
@@ -56,6 +53,7 @@ public class SysWordInfoServiceImpl implements ISysWordInfoService
     @Override
     public int insertSysWordInfo(SysWordInfo sysWordInfo)
     {
+        sysWordInfo.fileRows=wordduqu.Word(sysWordInfo.fileWord);
         return sysWordInfoMapper.insertSysWordInfo(sysWordInfo);
     }
 
@@ -94,5 +92,4 @@ public class SysWordInfoServiceImpl implements ISysWordInfoService
     {
         return sysWordInfoMapper.deleteSysWordInfoByFileId(fileId);
     }
-
 }

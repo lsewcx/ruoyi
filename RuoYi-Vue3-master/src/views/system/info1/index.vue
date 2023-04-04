@@ -152,7 +152,7 @@
       jiage() {
         this.$router.push({
           path: "/word", query: {
-            id: this.param.id,
+            ID: this.param.id,
             xiangsidu: this.param.xiangsidu,
             rows: this.param.fileRows,
           }

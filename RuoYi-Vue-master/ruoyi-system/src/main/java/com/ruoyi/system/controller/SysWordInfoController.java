@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * word上传Controller
  * 
  * @author lse
- * @date 2023-04-03
+ * @date 2023-04-04
  */
 @RestController
 @RequestMapping("/system/word")

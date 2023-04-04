@@ -7,16 +7,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="SysWordInfo" id="SysWordInfoResult">
         <result property="fileId"    column="file_id"    />
         <result property="fileWord"    column="file_word"    />
+        <result property="fileRows"    column="file_rows"    />
     </resultMap>
 
     <sql id="selectSysWordInfoVo">
-        select file_id, file_word from sys_word_info
+        select file_id, file_word, file_rows from sys_word_info
     </sql>
 
     <select id="selectSysWordInfoList" parameterType="SysWordInfo" resultMap="SysWordInfoResult">
         <include refid="selectSysWordInfoVo"/>
         <where>  
             <if test="fileWord != null  and fileWord != ''"> and file_word = #{fileWord}</if>
+            <if test="fileRows != null "> and file_rows = #{fileRows}</if>
         </where>
     </select>
     
@@ -29,9 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sys_word_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="fileWord != null">file_word,</if>
+            <if test="fileRows != null">file_rows,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="fileWord != null">#{fileWord},</if>
+            <if test="fileRows != null">#{fileRows},</if>
          </trim>
     </insert>
 
@@ -39,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update sys_word_info
         <trim prefix="SET" suffixOverrides=",">
             <if test="fileWord != null">file_word = #{fileWord},</if>
+            <if test="fileRows != null">file_rows = #{fileRows},</if>
         </trim>
         where file_id = #{fileId}
     </update>
