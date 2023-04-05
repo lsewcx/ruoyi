@@ -8,6 +8,7 @@ import com.ruoyi.system.domain.SysJiageInfo;
 import com.ruoyi.system.service.ISysJiageInfoService;
 import com.ruoyi.system.controller.wordduqu;
 import com.ruoyi.system.service.impl.SysWordInfoServiceImpl;
+import com.ruoyi.system.controller.jiagejisuan;
 
 /**
  * 最终价格计算Service业务层处理
@@ -54,6 +55,7 @@ public class SysJiageInfoServiceImpl implements ISysJiageInfoService
     @Override
     public int insertSysJiageInfo(SysJiageInfo sysJiageInfo)
     {
+        sysJiageInfo.fileZuozhongjiage=jiagejisuan.zuizhongjiage(sysJiageInfo.fileJiage,sysJiageInfo.fileShijidaima)/10;
         return sysJiageInfoMapper.insertSysJiageInfo(sysJiageInfo);
     }
 

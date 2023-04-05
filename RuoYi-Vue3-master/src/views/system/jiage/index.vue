@@ -66,9 +66,6 @@
         <el-form-item label="实际代码量" prop="fileShijidaima">
           <el-input v-model="form.fileShijidaima" placeholder="请输入实际代码量" />
         </el-form-item>
-        <el-form-item label="最终价格" prop="fileZuozhongjiage">
-          <el-input v-model="form.fileZuozhongjiage" placeholder="请输入最终价格" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -80,10 +77,12 @@
 
 <script>
   import { listJiage, getJiage, delJiage, addJiage, updateJiage } from "@/api/system/jiage";
+
   export default {
     name: "Jiage",
     data() {
       return {
+        number: 0,
         // 遮罩层
         loading: true,
         // 选中数组
@@ -127,6 +126,12 @@
       this.getxiangsidu();
     },
     methods: {
+      change() {
+        if (location.href.indexOf("#reloaded") == -1) {
+          location.href = location.href + "#reloaded";
+          location.reload();
+        }
+      },
 
       getrow() {
         var rows = this.$route.query.rows
@@ -142,9 +147,10 @@
       },
 
 
-
       /** 查询最终价格计算列表 */
       getList() {
+        this.change()
+        this.number = 1
         console.log(this.getjiage())
         this.loading = true;
         listJiage(this.queryParams).then(response => {
@@ -212,8 +218,7 @@
               });
             } else {
               this.form.fileJiage = this.getjiage()
-              this.form.fileShijidaima = this.getrow()
-              this.form.fileZuozhongjiage = parseInt(this.getxiangsidu() * 100)
+              this.form.fileShijidaima = parseInt(this.getrow()) - parseInt(this.getrow() * parseInt(this.getxiangsidu() * 100) / 100)
               addJiage(this.form).then(response => {
                 this.$modal.msgSuccess("新增成功");
                 this.open = false;
