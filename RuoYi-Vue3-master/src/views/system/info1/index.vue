@@ -91,6 +91,7 @@
   var res;
   var fileID;
   var a;
+  var d
   export default {
     name: "Info1",
     data() {
@@ -214,6 +215,8 @@
           res = filterList.map(item => item.fileXinagsidu)
           var c = filterList.map(item => item.fileRows)
           var b = filterList.map(item => item.fileId)
+          d = filterList.map(item => item.filePath)//文件路径
+          this.form.filenewpath = d
           var number = parseInt(res)
           number = number / 100
           this.param.id = b
@@ -242,6 +245,8 @@
       },
       /** 提交按钮 */
       submitForm() {
+        this.form.filenewpath = d[0]
+        console.log(d[0])
         this.$refs["form"].validate(valid => {
           if (valid) {
             if (this.form.fileId != null) {
@@ -253,7 +258,7 @@
             } else {
               addInfo1(this.form).then(response => {
                 this.$modal.msgSuccess("新增成功");
-                this.open = false;
+                this.open = true;
                 this.getList();
               });
             }

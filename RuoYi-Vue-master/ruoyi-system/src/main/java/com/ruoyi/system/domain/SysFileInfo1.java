@@ -46,6 +46,13 @@ public class SysFileInfo1 extends BaseEntity
     @Excel(name = "代码相似度")
     public String fileXinagsidu;
 
+    public String filenewpath;
+
+    public void setFilenewpath(String filenewpath){this.filenewpath=filenewpath;}
+    public String getFilenewpath(){
+        return filenewpath;
+    }
+
     public void setFileId(Long fileId) 
     {
         this.fileId = fileId;
@@ -117,6 +124,7 @@ public class SysFileInfo1 extends BaseEntity
                 .append("fileGithub", getFileGithub())
                 .append("fileRows", getFileRows())
                 .append("fileXinagsidu", getFileXinagsidu())
+                    .append("filenewpath",getFilenewpath())
                 .toString();
         } catch (IOException e) {
             throw new RuntimeException(e);

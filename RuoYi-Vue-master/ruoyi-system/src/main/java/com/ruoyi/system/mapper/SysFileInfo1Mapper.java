@@ -59,5 +59,4 @@ public interface SysFileInfo1Mapper
      */
     public int deleteSysFileInfo1ByFileIds(Long[] fileIds);
 
-    public String getfilepath(String filepath);
 }

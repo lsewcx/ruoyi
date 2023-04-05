@@ -76,7 +76,7 @@
         if (typeof item === "string") {
           item = { name: item, url: item };
         }
-        item.uid = item.uid || new Date().getTime() + temp++;
+        item.uid = item.uid
         return item;
       });
     } else {
