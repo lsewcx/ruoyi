@@ -150,7 +150,6 @@
       this.getList();
     },
     methods: {
-
       jiage() {
         this.$router.push({
           path: "/word", query: {
@@ -164,6 +163,12 @@
       push() {
         console.log(this.param.fileID)
         this.$router.push({ path: "/tool/build", query: { formdata: this.param.fileID } })
+      },
+      change() {
+        if (location.href.indexOf("#reloaded") == -1) {
+          location.href = location.href + "#reloaded";
+          location.reload();
+        }
       },
 
 
@@ -196,6 +201,7 @@
         this.handleQuery();
       },
       getList() {
+        this.change()
         this.loading = true;
         listInfo1(this.queryParams).then(response => {
           var list = response.rows
