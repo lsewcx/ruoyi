@@ -165,18 +165,6 @@
       },
 
 
-      /** 查询文件信息1列表 */
-      getList() {
-        this.loading = true;
-        listInfo1(this.queryParams).then(response => {
-          var list = response.rows
-          var filterList = list.filter(val => val.fileId === fileID)
-          res = filterList.map(item => item.fileXinagsidu);
-          this.info1List = response.rows;
-          this.total = response.total;
-          this.loading = false;
-        });
-      },
       // 取消按钮
       cancel() {
         this.open = false;
@@ -204,6 +192,17 @@
       resetQuery() {
         this.resetForm("queryForm");
         this.handleQuery();
+      },
+      getList() {
+        this.loading = true;
+        listInfo1(this.queryParams).then(response => {
+          var list = response.rows
+          var filterList = list.filter(val => val.fileId === fileID)
+          res = filterList.map(item => item.fileXinagsidu);
+          this.info1List = response.rows;
+          this.total = response.total;
+          this.loading = false;
+        });
       },
       // 多选框选中数据
       handleSelectionChange(selection) {
@@ -243,7 +242,6 @@
       },
       /** 提交按钮 */
       submitForm() {
-        console.log(this.form.filePath)
         this.$refs["form"].validate(valid => {
           if (valid) {
             if (this.form.fileId != null) {

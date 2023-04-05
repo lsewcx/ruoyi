@@ -145,7 +145,7 @@
 
       /** 查询最终价格计算列表 */
       getList() {
-
+        console.log(this.getjiage())
         this.loading = true;
         listJiage(this.queryParams).then(response => {
           this.jiageList = response.rows;
@@ -188,7 +188,7 @@
       handleAdd() {
         this.reset();
         this.open = true;
-        this.title = "添加最终价格计算";
+        this.title = "添加最终价格计算(点击确定自动填充)";
       },
       /** 修改按钮操作 */
       handleUpdate(row) {
@@ -213,7 +213,7 @@
             } else {
               this.form.fileJiage = this.getjiage()
               this.form.fileShijidaima = this.getrow()
-              this.form.fileZuozhongjiage = parseInt(this.getxiangsidu())
+              this.form.fileZuozhongjiage = parseInt(this.getxiangsidu() * 100)
               addJiage(this.form).then(response => {
                 this.$modal.msgSuccess("新增成功");
                 this.open = false;

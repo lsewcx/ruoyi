@@ -11,8 +11,19 @@
           v-hasPermi="['system:word:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['system:word:edit']">修改</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['system:word:remove']">删除</el-button>
+      </el-col>
+      <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['system:word:export']">导出</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="push">最终价格</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -58,9 +69,10 @@
     name: "Word",
     data() {
       return {
-
         param: {
           c: 0,
+          xiangsidu: 0,
+          rows: 0,
         },
         res: null,
         // 遮罩层
@@ -85,7 +97,6 @@
         queryParams: {
           pageNum: 1,
           pageSize: 10,
-          fileId: null,
           fileWord: null,
           fileRows: null
         },
@@ -105,6 +116,18 @@
       this.getid()
     },
     methods: {
+
+      push() {
+        console.log(this.param.rows)
+        this.$router.push({
+          path: "/jiage",
+          query: {
+            rows: this.param.rows,
+            xiangsidu: this.param.xiangsidu,
+            jiage: this.param.c
+          }
+        })
+      },
       getrows() {
         var rows = this.$route.query.rows
         return rows
@@ -126,6 +149,8 @@
           var filterList = word.filter(val => val.fileId === a)
           var c = filterList.map(item => item.fileRows)
           this.param.c = c
+          this.param.xiangsidu = this.getxiangsidu()
+          this.param.rows = this.getrows()
           console.log(this.param.c)
         });
         this.single = selection.length !== 1
@@ -158,6 +183,34 @@
         };
         this.resetForm("form");
       },
+      handleQuery() {
+        this.queryParams.pageNum = 1;
+        this.getList();
+      },
+      /** 重置按钮操作 */
+      resetQuery() {
+        this.resetForm("queryForm");
+        this.handleQuery();
+      },
+      /** 修改按钮操作 */
+      handleUpdate(row) {
+        this.reset();
+        const fileId = row.fileId || this.ids
+        getWord(fileId).then(response => {
+          this.form = response.data;
+          this.open = true;
+          this.title = "修改word上传";
+        });
+      },
+      handleDelete(row) {
+        const fileIds = row.fileId || this.ids;
+        this.$modal.confirm('是否确认删除word上传编号为"' + fileIds + '"的数据项？').then(function () {
+          return delWord(fileIds);
+        }).then(() => {
+          this.getList();
+          this.$modal.msgSuccess("删除成功");
+        }).catch(() => { });
+      },
 
 
       /** 新增按钮操作 */
@@ -186,16 +239,6 @@
             }
           }
         });
-        this.getList()
-        this.$router.push({
-
-          path: "/jiage",
-          query: {
-            rows: this.getrows(),
-            xiangsidu: this.getxiangsidu(),
-            jiage: this.param.c
-          }
-        })
       },
       /** 导出按钮操作 */
       handleExport() {
