@@ -4,6 +4,7 @@
       <el-form-item label="文件名称" prop="fileName">
         <el-input v-model="queryParams.fileName" placeholder="请输入文件名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
+      <div>先选择你想要比对的文件是哪个点击文件id前面的框</div>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
