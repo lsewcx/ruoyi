@@ -60,7 +60,15 @@
     <!-- 添加或修改最终价格计算对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body v-model="open">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-
+        <el-form-item label="价格" prop="fileJiage">
+          <el-input v-model="form.fileJiage" placeholder="请输入价格" />
+        </el-form-item>
+        <el-form-item label="实际代码量" prop="fileShijidaima">
+          <el-input v-model="form.fileShijidaima" placeholder="请输入实际代码量" />
+        </el-form-item>
+        <el-form-item label="最终价格" prop="fileZuozhongjiage">
+          <el-input v-model="form.fileZuozhongjiage" placeholder="请输入最终价格" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -137,7 +145,7 @@
 
       /** 查询最终价格计算列表 */
       getList() {
-        console.log(this.getjiage())
+
         this.loading = true;
         listJiage(this.queryParams).then(response => {
           this.jiageList = response.rows;
@@ -203,6 +211,9 @@
                 this.getList();
               });
             } else {
+              this.form.fileJiage = this.getjiage()
+              this.form.fileShijidaima = this.getrow()
+              this.form.fileZuozhongjiage = parseInt(this.getxiangsidu())
               addJiage(this.form).then(response => {
                 this.$modal.msgSuccess("新增成功");
                 this.open = false;

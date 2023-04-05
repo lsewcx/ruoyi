@@ -20,15 +20,15 @@ public class SysJiageInfo extends BaseEntity
 
     /** 价格 */
     @Excel(name = "价格")
-    public Long fileJiage;
+    public Integer fileJiage;
 
     /** 实际代码量 */
     @Excel(name = "实际代码量")
-    public String fileShijidaima;
+    public Integer fileShijidaima;
 
     /** 最终价格 */
     @Excel(name = "最终价格")
-    public Long fileZuozhongjiage;
+    public Integer fileZuozhongjiage;
 
     public void setFileId(Long fileId) 
     {
@@ -39,30 +39,30 @@ public class SysJiageInfo extends BaseEntity
     {
         return fileId;
     }
-    public void setFileJiage(Long fileJiage) 
+    public void setFileJiage(Integer fileJiage)
     {
         this.fileJiage = fileJiage;
     }
 
-    public Long getFileJiage() 
+    public Integer getFileJiage()
     {
         return fileJiage;
     }
-    public void setFileShijidaima(String fileShijidaima) 
+    public void setFileShijidaima(Integer fileShijidaima)
     {
         this.fileShijidaima = fileShijidaima;
     }
 
-    public String getFileShijidaima() 
+    public Integer getFileShijidaima()
     {
         return fileShijidaima;
     }
-    public void setFileZuozhongjiage(Long fileZuozhongjiage) 
+    public void setFileZuozhongjiage(Integer fileZuozhongjiage)
     {
         this.fileZuozhongjiage = fileZuozhongjiage;
     }
 
-    public Long getFileZuozhongjiage() 
+    public Integer getFileZuozhongjiage()
     {
         return fileZuozhongjiage;
     }
