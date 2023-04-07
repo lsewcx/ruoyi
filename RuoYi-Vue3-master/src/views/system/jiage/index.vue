@@ -77,7 +77,6 @@
 
 <script>
   import { listJiage, getJiage, delJiage, addJiage, updateJiage } from "@/api/system/jiage";
-
   export default {
     name: "Jiage",
     data() {
