@@ -162,7 +162,7 @@
 
       push() {
         console.log(this.param.fileID)
-        this.$router.push({ path: "/tool/build", query: { formdata: this.param.fileID } })
+        this.$router.push({ path: "/build", query: { formdata: this.param.fileID } })
       },
       change() {
         if (location.href.indexOf("#reloaded") == -1) {
