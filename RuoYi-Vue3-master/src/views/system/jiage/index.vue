@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <ul>总工时:{{this.jgyz}}</ul>
+      <ul>总工时:{{this.add}}</ul>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -103,6 +103,12 @@
         rules: {
         }
       };
+    },
+    computed: {
+      add() {
+        this.jgyz = this.getjiageyinzi()
+        return this.jgyz
+      }
     },
     created() {
       this.getList()
