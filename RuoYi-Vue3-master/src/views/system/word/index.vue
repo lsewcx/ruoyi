@@ -120,7 +120,7 @@
       push() {
         console.log(this.param.rows)
         this.$router.push({
-          path: "/jiage",
+          path: "/jiageyinzi",
           query: {
             rows: this.param.rows,
             xiangsidu: this.param.xiangsidu,

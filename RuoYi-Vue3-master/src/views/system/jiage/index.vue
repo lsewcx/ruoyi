@@ -1,21 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="价格" prop="fileJiage">
-        <el-input v-model="queryParams.fileJiage" placeholder="请输入价格" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="实际代码" prop="fileShijidaima">
-        <el-input v-model="queryParams.fileShijidaima" placeholder="请输入实际代码量" clearable
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="最终价格" prop="fileZuozhongjiage">
-        <el-input v-model="queryParams.fileZuozhongjiage" placeholder="请输入最终价格" clearable
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
+      <ul>总工时:{{this.jgyz}}</ul>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -77,6 +63,8 @@
 
 <script>
   import { listJiage, getJiage, delJiage, addJiage, updateJiage } from "@/api/system/jiage";
+  import { ref } from 'vue'
+  var jgyz
   export default {
     name: "Jiage",
     data() {
@@ -123,6 +111,7 @@
       this.getrow();
       this.getjiage();
       this.getxiangsidu();
+      this.getjiageyinzi()
     },
     methods: {
       change() {
@@ -134,7 +123,7 @@
 
       getrow() {
         var rows = this.$route.query.rows
-        return rows;
+        return rows
       },
       getxiangsidu() {
         var xiangsidu = this.$route.query.xiangsidu
@@ -144,10 +133,16 @@
         var jiage = this.$route.query.jiage
         return jiage
       },
+      getjiageyinzi() {
+        var jiageyinizi = this.$route.query.jiageyinzi
+        return jiageyinizi
+      },
 
 
       /** 查询最终价格计算列表 */
       getList() {
+        this.jgyz = this.getjiageyinzi()
+        console.log(this.jgyz)
         this.change()
         this.number = 1
         console.log(this.getjiage())

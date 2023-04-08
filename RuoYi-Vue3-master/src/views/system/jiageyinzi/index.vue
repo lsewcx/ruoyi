@@ -19,18 +19,18 @@
             <li>{{this.UE}}(p*h)</li>
             <div class="height1"></div>
             <el-input type="number" min="0.8" max="1.2" step="0.1" @input="(v)=>(input=v.replace(/[^\d.]/g,''))"
-                maxlength="3" v-model="input" placeholder="0.8~1.2" style="display: inline;" />
+                oninput="value=value.slice(0,3)" v-model="obj.input" placeholder="0.8~1.2" style="display: inline;" />
             <div class="height1"></div>
             <el-input type="number" min="0.8" max="1.8" step="0.1" @input="(v)=>(input1=v.replace(/[^\d.]/g,''))"
-                maxlength="3" v-model="input1" placeholder="0.8~1.8" />
+                oninput="value=value.slice(0,3)" v-model="obj.input1" placeholder="0.8~1.8" />
             <div class="height1"></div>
             <el-input type="number" min="0.8" max="1.2" step="0.1" @input="(v)=>(input2=v.replace(/[^\d.]/g,''))"
-                maxlength="3" v-model="input2" placeholder="0.8~1.2" />
+                oninput="value=value.slice(0,3)" v-model="obj.input2" placeholder="0.8~1.2" />
             <div class="height1"></div>
             <el-input type="number" min="0.8" max="1.2" step="0.1" @input="(v)=>(input3=v.replace(/[^\d.]/g,''))"
-                maxlength="3" v-model="input3" placeholder="0.8~1.2" />
+                oninput="value=value.slice(0,3)" v-model="obj.input3" placeholder="0.8~1.2" />
             <div class="height1"></div>
-            <li>{{this.AE1}}</li>
+            <li>{{this.add}}</li>
             <div class="height0"></div>
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="push">下一步</el-button>
         </div>
@@ -52,22 +52,67 @@
 </template>
 
 <script>
+    import { watchEffect } from 'vue'
     export default {
         name: "jiageyinzi",
         data() {
             return {
+                param: {
+                    rows: 0,
+                    xiangsidu: 0,
+                    jiage: 0,
+                    jiageyinzi: 0,
+                },
                 UE: 50510.5,
-                input: 1,
-                input1: 1,
-                input2: 1,
-                input3: 1,
-                AE1: 50510.5
+                obj: {
+                    input: 1,
+                    input1: 1,
+                    input2: 1,
+                    input3: 1,
+                },
+                AE: 50510.5,
+                AE1: 50510.5,
             }
         },
+        mounted() {
+            this.getrow();
+            this.getjiage();
+            this.getxiangsidu();
+        },
+        computed: {
+            add() {
+                this.AE1 = this.AE * this.obj.input * this.obj.input1 * this.obj.input2 * this.obj.input3
+                this.AE1 = this.AE1.toFixed(2)
+                return this.AE1
+            },
+        },
         methods: {
+            getrow() {
+                var rows = this.$route.query.rows
+                return rows;
+            },
+            getxiangsidu() {
+                var xiangsidu = this.$route.query.xiangsidu
+                return xiangsidu
+            },
+            getjiage() {
+                var jiage = this.$route.query.jiage
+                return jiage
+            },
             push() {
-                console.log(this.input3)
-                // this.$router.push({ path: "/jiage" })
+                this.param.rows = this.getrow()
+                this.param.xiangsidu = this.getxiangsidu()
+                this.param.jiage = this.getjiage()
+                this.param.jiageyinzi = this.AE1
+                this.$router.push({
+                    path: "/jiage",
+                    query: {
+                        rows: this.param.rows,
+                        xiangsidu: this.param.xiangsidu,
+                        jiage: this.param.jiage,
+                        jiageyinzi: this.param.jiageyinzi,
+                    }
+                })
             },
         },
     }
