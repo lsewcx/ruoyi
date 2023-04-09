@@ -10,6 +10,7 @@
 
 <script>
    import * as echarts from "echarts";
+   import { ElMessage, ElMessageBox } from 'element-plus'
    var xiangsidu
    export default {
       data() {
@@ -34,12 +35,21 @@
          this.initDate(); //数据初始化
          this.initEcharts();
          this.getfileID();
+         this.open()
       },
 
 
 
 
       methods: {
+         open() {
+            if (this.getfileID() == null) {
+               ElMessageBox.alert('没有选择数据', '错误', {
+               }).then((action) => {
+                  this.$router.push({ path: "/info1" })
+               })
+            }
+         },
          getfileID() {
             var xiangsidu = this.$route.query.formdata
             return xiangsidu

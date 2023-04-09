@@ -147,6 +147,7 @@
 
       /** 查询最终价格计算列表 */
       getList() {
+        this.change()
         this.jgyz = this.getjiageyinzi()
         console.log(this.jgyz)
         this.number = 1
