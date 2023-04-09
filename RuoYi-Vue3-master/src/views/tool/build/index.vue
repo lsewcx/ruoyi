@@ -1,9 +1,10 @@
 <template>
-   <div class="echart" id="mychart" :style="myChartStyle">
-
-   </div>
-   <div class="button">
-      <el-button class="button" type="primary" @click="push1">返回 </el-button>
+   <div>
+      <div class="echart" id="mychart" :style="myChartStyle">
+      </div>
+      <div class="button">
+         <el-button class="button" type="primary" @click="push1">返回 </el-button>
+      </div>
    </div>
 </template>
 

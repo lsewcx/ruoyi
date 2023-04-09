@@ -149,7 +149,6 @@
       getList() {
         this.jgyz = this.getjiageyinzi()
         console.log(this.jgyz)
-        this.change()
         this.number = 1
         console.log(this.getjiage())
         this.loading = true;
