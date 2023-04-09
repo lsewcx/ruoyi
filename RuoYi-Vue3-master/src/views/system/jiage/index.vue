@@ -64,6 +64,7 @@
 <script>
   import { listJiage, getJiage, delJiage, addJiage, updateJiage } from "@/api/system/jiage";
   import { ref } from 'vue'
+  import { ElMessage, ElMessageBox } from 'element-plus'
   var jgyz
   export default {
     name: "Jiage",
@@ -108,7 +109,7 @@
       add() {
         this.jgyz = this.getjiageyinzi()
         return this.jgyz
-      }
+      },
     },
     created() {
       this.getList()
@@ -118,8 +119,20 @@
       this.getjiage();
       this.getxiangsidu();
       this.getjiageyinzi()
+      this.open1();
     },
     methods: {
+      open1() {
+        if (this.getjiageyinzi() == null) {
+          ElMessageBox.alert('没有选择数据', '错误', {
+          }).then((action) => {
+            this.$router.push({ path: "/jiageyinzi" })
+          })
+        }
+        else {
+          this.change()
+        }
+      },
       change() {
         if (location.href.indexOf("#reloaded") == -1) {
           location.href = location.href + "#reloaded";
@@ -145,9 +158,9 @@
       },
 
 
+
       /** 查询最终价格计算列表 */
       getList() {
-        this.change()
         this.jgyz = this.getjiageyinzi()
         console.log(this.jgyz)
         this.number = 1
