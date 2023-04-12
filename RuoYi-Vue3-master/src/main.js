@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 
+import CodeDiff from 'v-code-diff'
+
 import Cookies from 'js-cookie'
 
 import ElementPlus from 'element-plus'
@@ -43,6 +45,9 @@ import TreeSelect from '@/components/TreeSelect'
 // 字典标签组件
 import DictTag from '@/components/DictTag'
 
+
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 const app = createApp(App)
 
 // 全局方法挂载
@@ -79,5 +84,5 @@ app.use(ElementPlus, {
   // 支持 large、default、small
   size: Cookies.get('size') || 'default'
 })
-
-app.mount('#app')
+app.use(CodeDiff)
+  .mount('#app')

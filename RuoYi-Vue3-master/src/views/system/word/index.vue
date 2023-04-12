@@ -129,7 +129,7 @@
         })
       },
       getrows() {
-        var rows = this.$route.query.rows
+        var rows = this.$route.query.rows * (1 - this.getxiangsidu())
         return rows
       },
       getxiangsidu() {

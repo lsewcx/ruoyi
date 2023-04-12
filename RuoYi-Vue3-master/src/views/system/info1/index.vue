@@ -35,6 +35,9 @@
         <el-col :span="1.5">
           <el-button type="primary" plain icon="el-icon-download" size="mini" @click="jiage">价格计算</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" plain icon="el-icon-download" size="mini" @click="diff">代码溯源</el-button>
+        </el-col>
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
       <!-- 新增 -->
@@ -83,6 +86,7 @@
           <el-button @click="cancel">取 消</el-button>
         </div>
       </el-dialog>
+
     </div>
   </div>
 </template>
@@ -90,6 +94,7 @@
 <script>
   import { listInfo1, getInfo1, delInfo1, addInfo1, updateInfo1 } from "@/api/system/info1";
   import { ref, watch, computed } from 'vue'
+  import { CodeDiff } from 'v-code-diff'
   var res;
   var fileID;
   var a;
@@ -98,7 +103,7 @@
     name: "Info1",
     data() {
       return {
-
+        url: "http://localhost:9000",
         fileID: null,
         number: "",
         // 遮罩层
@@ -118,8 +123,10 @@
         list: [],
         // 弹出层标题
         title: "",
+        title1: "",
         // 是否显示弹出层
         open: false,
+        open1: false,
         param: {
           id: 0,
           fileID: 0,
@@ -151,6 +158,9 @@
       this.getList();
     },
     methods: {
+      diff() {
+        window.open(this.url)
+      },
       jiage() {
         this.$router.push({
           path: "/word", query: {
@@ -163,7 +173,12 @@
 
       push() {
         console.log(this.param.fileID)
-        this.$router.push({ path: "/build", query: { formdata: this.param.fileID } })
+        this.$router.push({
+          path: "/build", query: {
+            formdata: this.param.fileID,
+            rows: this.param.fileRows
+          }
+        })
       },
       change() {
         if (location.href.indexOf("#reloaded") == -1) {
