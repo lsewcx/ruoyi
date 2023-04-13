@@ -3,7 +3,8 @@
         <el-form ref="basicInformation" :model="basicInformation" label-width="100px">
             <div style="border-left: 4px solid #39a9ff;padding-left: 8px;line-height: initial;font-size: initial;">
                 <h4>开发工资</h4>
-                <ul>{{this.add}}</ul>
+                <ul>总工时{{this.add}}</ul>
+                <ul>总成本{{this.zuizhongjiage0}}</ul>
             </div>
             <el-row :gutter="20" v-for="(item,index) in basicInformation.purPeoList" :key="index">
                 <el-row :gutter="20">
@@ -29,7 +30,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="工资" :prop="'purPeoList.'+index+'.hklxdm'">
-                            <el-input v-model="item.hklxdm"></el-input>
+                            <el-input v-model="gongzi"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -55,7 +56,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="工资" :prop="'purPeoList.'+index+'.hklxdm'">
-                            <el-input v-model="item.hklxdm"></el-input>
+                            <el-input v-model="gongzi1"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row><el-row :gutter="20">
@@ -80,7 +81,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="工资" :prop="'purPeoList.'+index+'.hklxdm'">
-                            <el-input v-model="item.hklxdm"></el-input>
+                            <el-input v-model="gongzi2"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -106,7 +107,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="工资" :prop="'purPeoList.'+index+'.hklxdm'">
-                            <el-input v-model="item.hklxdm"></el-input>
+                            <el-input v-model="gongzi3"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -132,7 +133,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="工资" :prop="'purPeoList.'+index+'.hklxdm'">
-                            <el-input v-model="item.hklxdm"></el-input>
+                            <el-input v-model="gongzi4"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -158,7 +159,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="工资" :prop="'purPeoList.'+index+'.hklxdm'">
-                            <el-input v-model="item.hklxdm"></el-input>
+                            <el-input v-model="gongzi5"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -207,6 +208,13 @@
     var gs32
     var gs42
     var gs52
+    var gz
+    var gz1
+    var gz2
+    var gz3
+    var gz4
+    var gz5
+    var zuizhongjiage
     export default {
         name: 'gcs',
         data() {
@@ -281,10 +289,37 @@
                 this.gs52 = parseInt(this.basicInformation.purPeoList.map(item => item.jtcygxdm5)) / 100 * this.getjiageyinzi()
                 this.gs52 = this.gs52.toFixed(0)
                 return this.gs52
-            }
+            },
+            gongzi() {
+                this.gz = 100 * this.gs0
+                return this.gz
+            },
+            gongzi1() {
+                this.gz1 = 100 * this.gs1
+                return this.gz1
+            },
+            gongzi2() {
+                this.gz2 = 100 * this.gs2
+                return this.gz2
+            },
+            gongzi3() {
+                this.gz3 = 100 * this.gs3
+                return this.gz3
+            },
+            gongzi4() {
+                this.gz4 = 100 * this.gs4
+                return this.gz4
+            },
+            gongzi5() {
+                this.gz5 = 100 * this.gs5
+                return this.gz5
+            },
+            zuizhongjiage0() {
+                this.zuizhongjiage = this.gongzi + this.gongzi1 + this.gongzi2 + this.gongzi3 + this.gongzi4 + this.gongzi5
+                return this.zuizhongjiage
+            },
         },
         mounted() {
-            this.getjiage()
             this.getjiageyinzi()
             this.getrow()
             this.getxiangsidu()
@@ -316,10 +351,6 @@
                 var xiangsidu = this.$route.query.xiangsidu
                 return xiangsidu
             },
-            getjiage() {
-                var jiage = this.$route.query.jiage
-                return jiage
-            },
             getjiageyinzi() {
                 var jiageyinizi = this.$route.query.jiageyinzi
                 return jiageyinizi
@@ -338,8 +369,8 @@
             submitHandlerAndNextStep() {
                 this.param.rows = this.getrow()
                 this.param.xiangsidu = this.getxiangsidu()
-                this.param.jiage = this.getjiage()
                 this.param.jiageyinizi = this.getjiageyinzi()
+                this.param.jiage = this.zuizhongjiage0
                 this.$router.push({
                     path: "/jiage",
                     query: {

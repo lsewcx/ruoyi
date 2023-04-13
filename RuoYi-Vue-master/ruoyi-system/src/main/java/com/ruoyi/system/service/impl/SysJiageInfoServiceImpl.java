@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysJiageInfoMapper;
 import com.ruoyi.system.domain.SysJiageInfo;
 import com.ruoyi.system.service.ISysJiageInfoService;
-import com.ruoyi.system.controller.wordduqu;
-import com.ruoyi.system.service.impl.SysWordInfoServiceImpl;
-import com.ruoyi.system.controller.jiagejisuan;
+
 
 /**
  * 最终价格计算Service业务层处理
@@ -55,7 +53,7 @@ public class SysJiageInfoServiceImpl implements ISysJiageInfoService
     @Override
     public int insertSysJiageInfo(SysJiageInfo sysJiageInfo)
     {
-        sysJiageInfo.fileZuozhongjiage=jiagejisuan.zuizhongjiage(sysJiageInfo.fileJiage,sysJiageInfo.fileShijidaima);
+        sysJiageInfo.fileZuozhongjiage=sysJiageInfo.fileJiage;
         return sysJiageInfoMapper.insertSysJiageInfo(sysJiageInfo);
     }
 

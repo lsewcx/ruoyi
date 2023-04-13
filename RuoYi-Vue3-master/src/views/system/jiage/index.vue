@@ -116,21 +116,8 @@
       this.getrow();
       this.getjiage();
       this.getxiangsidu();
-      this.getjiageyinzi()
-      this.open1();
     },
     methods: {
-      open1() {
-        if (this.getjiageyinzi() == null) {
-          ElMessageBox.alert('没有选择数据', '错误', {
-          }).then((action) => {
-            this.$router.push({ path: "/gcs" })
-          })
-        }
-        else {
-          this.change()
-        }
-      },
       change() {
         if (location.href.indexOf("#reloaded") == -1) {
           location.href = location.href + "#reloaded";
@@ -150,17 +137,11 @@
         var jiage = this.$route.query.jiage
         return jiage
       },
-      getjiageyinzi() {
-        var jiageyinizi = this.$route.query.jiageyinzi
-        return jiageyinizi
-      },
 
 
 
       /** 查询最终价格计算列表 */
       getList() {
-        this.jgyz = this.getjiageyinzi()
-        console.log(this.jgyz)
         this.number = 1
         console.log(this.getjiage())
         this.loading = true;
@@ -219,6 +200,7 @@
       },
       /** 提交按钮 */
       submitForm() {
+        console.log(this.getjiage())
         this.$refs["form"].validate(valid => {
           if (valid) {
             if (this.form.fileId != null) {
