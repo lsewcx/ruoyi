@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <ul>总工时:{{this.add}}</ul>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -27,7 +26,6 @@
     <el-table v-loading="loading" :data="jiageList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="文件id" align="center" prop="fileId" />
-      <el-table-column label="价格" align="center" prop="fileJiage" />
       <el-table-column label="实际代码" align="center" prop="fileShijidaima" />
       <el-table-column label="最终价格" align="center" prop="fileZuozhongjiage" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -126,7 +124,7 @@
         if (this.getjiageyinzi() == null) {
           ElMessageBox.alert('没有选择数据', '错误', {
           }).then((action) => {
-            this.$router.push({ path: "/jiageyinzi" })
+            this.$router.push({ path: "/gcs" })
           })
         }
         else {

@@ -48,6 +48,8 @@ public class SysFileInfo1 extends BaseEntity
 
     public String filenewpath;
 
+
+
     public void setFilenewpath(String filenewpath){this.filenewpath=filenewpath;}
     public String getFilenewpath(){
         return filenewpath;

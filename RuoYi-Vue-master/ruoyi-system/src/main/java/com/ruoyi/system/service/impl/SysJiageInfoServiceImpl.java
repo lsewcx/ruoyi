@@ -55,7 +55,7 @@ public class SysJiageInfoServiceImpl implements ISysJiageInfoService
     @Override
     public int insertSysJiageInfo(SysJiageInfo sysJiageInfo)
     {
-        sysJiageInfo.fileZuozhongjiage=jiagejisuan.zuizhongjiage(sysJiageInfo.fileJiage,sysJiageInfo.fileShijidaima)/10;
+        sysJiageInfo.fileZuozhongjiage=jiagejisuan.zuizhongjiage(sysJiageInfo.fileJiage,sysJiageInfo.fileShijidaima);
         return sysJiageInfoMapper.insertSysJiageInfo(sysJiageInfo);
     }
 

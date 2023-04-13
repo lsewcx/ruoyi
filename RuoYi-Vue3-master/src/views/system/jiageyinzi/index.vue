@@ -105,7 +105,7 @@
                 this.param.jiage = this.getjiage()
                 this.param.jiageyinzi = this.AE1
                 this.$router.push({
-                    path: "/jiage",
+                    path: "/gcs",
                     query: {
                         rows: this.param.rows,
                         xiangsidu: this.param.xiangsidu,
