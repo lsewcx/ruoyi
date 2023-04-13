@@ -200,7 +200,6 @@
       },
       /** 提交按钮 */
       submitForm() {
-        console.log(this.getjiage())
         this.$refs["form"].validate(valid => {
           if (valid) {
             if (this.form.fileId != null) {
