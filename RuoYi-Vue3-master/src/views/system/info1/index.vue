@@ -41,6 +41,9 @@
         <el-col :span="1.5">
           <el-button type="primary" plain icon="el-icon-download" size="mini" @click="difference">代码差异分析</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" plain icon="el-icon-download" size="mini" @click="go">文件详细信息</el-button>
+        </el-col>
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
       <!-- 新增 -->
@@ -140,6 +143,8 @@
           fileID: 0,
           xiangsidu: 0,
           fileRows: 0,
+          filename: '',
+          path: '',
         },
         // 查询参数
         queryParams: {
@@ -281,6 +286,15 @@ public class gonneng {\
       this.getList();
     },
     methods: {
+      go() {
+        this.$router.push({
+          path: "/xinxi",
+          query: {
+            filename: this.param.filename,
+            filePath: this.param.path,
+          }
+        })
+      },
       difference() {
         this.open1 = true
         this.str1 = ""
@@ -367,7 +381,11 @@ public class gonneng {\
           var c = filterList.map(item => item.fileRows)
           var b = filterList.map(item => item.fileId)
           d = filterList.map(item => item.filePath)//文件路径
-          console.log(d)
+          var name = filterList.map(item => item.fileName)
+          var path = filterList.map(item => item.filePath)
+          this.param.filename = name
+          this.param.path = path
+          console.log(path)
           this.form.filenewpath = d
           var number = parseInt(res)
           number = number / 100

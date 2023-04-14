@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysFileXinxiMapper">
+    
+    <resultMap type="SysFileXinxi" id="SysFileXinxiResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileJs"    column="file_js"    />
+        <result property="fileJava"    column="file_java"    />
+        <result property="fileXml"    column="file_xml"    />
+        <result property="fileVue"    column="file_vue"    />
+        <result property="fileWuxiao"    column="file_wuxiao"    />
+        <result property="filePath"    column="file_path"    />
+    </resultMap>
+
+    <sql id="selectSysFileXinxiVo">
+        select file_id, file_name, file_js, file_java, file_xml, file_vue, file_wuxiao, file_path from sys_file_xinxi
+    </sql>
+
+    <select id="selectSysFileXinxiList" parameterType="SysFileXinxi" resultMap="SysFileXinxiResult">
+        <include refid="selectSysFileXinxiVo"/>
+        <where>  
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileJs != null "> and file_js = #{fileJs}</if>
+            <if test="fileJava != null "> and file_java = #{fileJava}</if>
+            <if test="fileXml != null "> and file_xml = #{fileXml}</if>
+            <if test="fileVue != null "> and file_vue = #{fileVue}</if>
+            <if test="fileWuxiao != null "> and file_wuxiao = #{fileWuxiao}</if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysFileXinxiByFileId" parameterType="Long" resultMap="SysFileXinxiResult">
+        <include refid="selectSysFileXinxiVo"/>
+        where file_id = #{fileId}
+    </select>
+        
+    <insert id="insertSysFileXinxi" parameterType="SysFileXinxi" useGeneratedKeys="true" keyProperty="fileId">
+        insert into sys_file_xinxi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">file_name,</if>
+            <if test="fileJs != null">file_js,</if>
+            <if test="fileJava != null">file_java,</if>
+            <if test="fileXml != null">file_xml,</if>
+            <if test="fileVue != null">file_vue,</if>
+            <if test="fileWuxiao != null">file_wuxiao,</if>
+            <if test="filePath != null">file_path,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileJs != null">#{fileJs},</if>
+            <if test="fileJava != null">#{fileJava},</if>
+            <if test="fileXml != null">#{fileXml},</if>
+            <if test="fileVue != null">#{fileVue},</if>
+            <if test="fileWuxiao != null">#{fileWuxiao},</if>
+            <if test="filePath != null">#{filePath},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysFileXinxi" parameterType="SysFileXinxi">
+        update sys_file_xinxi
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileJs != null">file_js = #{fileJs},</if>
+            <if test="fileJava != null">file_java = #{fileJava},</if>
+            <if test="fileXml != null">file_xml = #{fileXml},</if>
+            <if test="fileVue != null">file_vue = #{fileVue},</if>
+            <if test="fileWuxiao != null">file_wuxiao = #{fileWuxiao},</if>
+            <if test="filePath != null">file_path = #{filePath},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteSysFileXinxiByFileId" parameterType="Long">
+        delete from sys_file_xinxi where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteSysFileXinxiByFileIds" parameterType="String">
+        delete from sys_file_xinxi where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+</mapper>
