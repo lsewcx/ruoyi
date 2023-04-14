@@ -10,7 +10,7 @@ import java.util.zip.ZipFile;
 
 public class webjianleix {
     public static void main(String[] args){
-        System.out.println(readZipFileName("C:\\Users\\lsewcx\\Desktop\\RuoYi-Vue-master.zip\\"));
+        System.out.println(readZipFileName1("C:\\Users\\lsewcx\\Desktop\\RuoYi-Vue-master.zip\\"));
     }
 
     //读取zip文件内的文件,返回文件名称列表

@@ -94,7 +94,7 @@
       </el-dialog>
 
       <el-dialog width="1000px" append-to-body v-model="open1">
-        <code-diff :old-string="this.str123" :new-string="this.str124" output-format="line-by-line" :context="100" />
+        <code-diff :old-string="this.str123" :new-string="this.str124" output-format="side-by-side" :context="100" />
       </el-dialog>
 
     </div>
@@ -171,15 +171,15 @@
     computed: {
       str123() {
         this.str1 = 'package com.ruoyi.system.controller;\
-        import com.hankcs.hanlp.HanLP;\
-        import org.springframework.web.bind.annotation.RestController;\
-        import java.util.ArrayList;\
-        import java.util.Collections;\
-        import java.util.List;\
-        import java.util.Map;\
-        import java.util.stream.Collectors;\
-        @RestController\
-        public class gonneng {\
+    import com.hankcs.hanlp.HanLP;\
+    import org.springframework.web.bind.annotation.RestController;\
+    import java.util.ArrayList;\
+    import java.util.Collections;\
+    import java.util.List;\
+    import java.util.Map;\
+    import java.util.stream.Collectors;\
+    @RestController\
+    public class gonneng {\
     public static String getSimilarity(String sentence1, String sentence2) {\
         List<String> sent1Words = getSplitWords(sentence1);\
         List<String> sent2Words = getSplitWords(sentence2);\
@@ -205,39 +205,25 @@
         B+="% ";\
         return B;\
     }\
-    // 3. 计算词频\
-    private static int[] statistic(List<String> allWords, List<String> sentWords) {\
-        int[] result = new int[allWords.size()];\
-        for (int i = 0; i < allWords.size(); i++) {\
-            // 返回指定集合中指定对象出现的次数\
-            result[i] = Collections.frequency(sentWords, allWords.get\(i));\
-        }\
-        return result;\
-    }\
     // 2. 取并集\
     private static List<String> mergeList(List<String> list1, \List<String> list2) {\
         List<String> result = new ArrayList<>();\
         result.addAll(list1);\
         result.addAll(list2);\
-        return result.stream().distinct().collect(Collectors.toList());\
-    }\
-    // 1. 分词\
-    private static List<String> getSplitWords(String sentence) {\
-        // 标点符号会被单独分为一个Term，去除之\
-      }}'
+        return result.stream().distinct().collect(Collectors.toList());}'
         return this.str1
       },
       str124() {
         this.str2 = 'package com.ruoyi.system.controller;\
-import com.hankcs.hanlp.HanLP;\
-import org.springframework.web.bind.annotation.RestController;\
-import java.util.ArrayList;\
-import java.util.Collections;\
-import java.util.List;\
-import java.util.Map;\
-import java.util.stream.Collectors;\
-@RestController\
-public class gonneng {\
+    import com.hankcs.hanlp.HanLP;\
+    import org.springframework.web.bind.annotation.RestController;\
+    import java.util.ArrayList;\
+    import java.util.Collections;\
+    import java.util.List;\
+    import java.util.Map;\
+    import java.util.stream.Collectors;\
+    @RestController\
+    public class gonneng {\
     public static String getSimilarity(String sentence1, String sentence2) {\
         List<String> sent1Words = getSplitWords(sentence1);\
         List<String> sent2Words = getSplitWords(sentence2);\

@@ -20,13 +20,15 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['system:jiage:export']">导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="back">返回</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="jiageList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="文件id" align="center" prop="fileId" />
-      <el-table-column label="实际代码" align="center" prop="fileShijidaima" />
       <el-table-column label="最终价格" align="center" prop="fileZuozhongjiage" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -46,9 +48,6 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="价格" prop="fileJiage">
           <el-input v-model="form.fileJiage" placeholder="请输入价格" />
-        </el-form-item>
-        <el-form-item label="实际代码量" prop="fileShijidaima">
-          <el-input v-model="form.fileShijidaima" placeholder="请输入实际代码量" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -118,6 +117,9 @@
       this.getxiangsidu();
     },
     methods: {
+      back() {
+        this.$router.push({ path: "/info1" })
+      },
       change() {
         if (location.href.indexOf("#reloaded") == -1) {
           location.href = location.href + "#reloaded";

@@ -137,6 +137,7 @@
     mounted() {
       this.getname()
       this.getpath()
+      this.change()
     },
     methods: {
       change() {
@@ -155,6 +156,7 @@
       },
       /** 查询文件详细信息列表 */
       getList() {
+        this.change()
         console.log(this.getname())
         console.log(this.getpath())
         this.loading = true;
