@@ -48,12 +48,23 @@ public class SysFileInfo1 extends BaseEntity
 
     public String filenewpath;
 
+    public String a;
+    public String b;
+    public String geta(){
+        return a;
+    }
+    public void seta(String a){this.a=a;}
 
+    public String getb(){
+        return b;
+    }
+    public void setb(String b){this.b=b;}
 
     public void setFilenewpath(String filenewpath){this.filenewpath=filenewpath;}
     public String getFilenewpath(){
         return filenewpath;
     }
+
 
     public void setFileId(Long fileId) 
     {
@@ -127,6 +138,8 @@ public class SysFileInfo1 extends BaseEntity
                 .append("fileRows", getFileRows())
                 .append("fileXinagsidu", getFileXinagsidu())
                     .append("filenewpath",getFilenewpath())
+                    .append("a",geta())
+                    .append("b",getb())
                 .toString();
         } catch (IOException e) {
             throw new RuntimeException(e);

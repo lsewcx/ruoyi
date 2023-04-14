@@ -38,6 +38,9 @@
         <el-col :span="1.5">
           <el-button type="primary" plain icon="el-icon-download" size="mini" @click="diff">代码溯源</el-button>
         </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" plain icon="el-icon-download" size="mini" @click="difference">代码差异分析</el-button>
+        </el-col>
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
       <!-- 新增 -->
@@ -87,6 +90,10 @@
         </div>
       </el-dialog>
 
+      <el-dialog width="1000px" append-to-body v-model="open1">
+        <code-diff :old-string="this.str123" :new-string="this.str124" output-format="line-by-line" :context="100" />
+      </el-dialog>
+
     </div>
   </div>
 </template>
@@ -99,6 +106,7 @@
   var fileID;
   var a;
   var d
+  var e
   export default {
     name: "Info1",
     data() {
@@ -142,22 +150,142 @@
           fileVersion: null,
           fileGithub: null,
           fileRows: null,
-          fileXinagsidu: null
+          fileXinagsidu: null,
+          abc: null,
+          abc1: null,
         },
         // 表单参数
         form: {},
+        form1: {},
         // 表单校验
         rules: {
         }
       };
     },
 
-
+    computed: {
+      str123() {
+        this.str1 = 'package com.ruoyi.system.controller;\
+        import com.hankcs.hanlp.HanLP;\
+        import org.springframework.web.bind.annotation.RestController;\
+        import java.util.ArrayList;\
+        import java.util.Collections;\
+        import java.util.List;\
+        import java.util.Map;\
+        import java.util.stream.Collectors;\
+        @RestController\
+        public class gonneng {\
+    public static String getSimilarity(String sentence1, String sentence2) {\
+        List<String> sent1Words = getSplitWords(sentence1);\
+        List<String> sent2Words = getSplitWords(sentence2);\
+        List<String> allWords = mergeList(sent1Words, sent2Words);\
+        int[] statistic1 = statistic(allWords, sent1Words);\
+        int[] statistic2 = statistic(allWords, sent2Words);\
+        // 向量A与向量B的点乘\
+        double dividend = 0;\
+        // 向量A所有维度值的平方相加\
+        double divisor1 = 0;\
+        // 向量B所有维度值的平方相加\
+        double divisor2 = 0;\
+        // 余弦相似度 算法\
+        for (int i = 0; i < statistic1.length; i++) {\
+            dividend += statistic1[i] * statistic2[i];\
+            divisor1 += Math.pow(statistic1[i], 2);\
+            divisor2 += Math.pow(statistic2[i], 2);\
+        }\
+        // 向量A与向量B的点乘 / （向量A所有维度值的平方相加后开方 * 向量B所有维度值的平方相加后开方）\
+        double A=dividend / (Math.sqrt(divisor1) * Math.sqrt(divisor2))*100;\
+        A= Math.round(A);\
+        String B= String.valueOf(A);\
+        B+="% ";\
+        return B;\
+    }\
+    // 3. 计算词频\
+    private static int[] statistic(List<String> allWords, List<String> sentWords) {\
+        int[] result = new int[allWords.size()];\
+        for (int i = 0; i < allWords.size(); i++) {\
+            // 返回指定集合中指定对象出现的次数\
+            result[i] = Collections.frequency(sentWords, allWords.get\(i));\
+        }\
+        return result;\
+    }\
+    // 2. 取并集\
+    private static List<String> mergeList(List<String> list1, \List<String> list2) {\
+        List<String> result = new ArrayList<>();\
+        result.addAll(list1);\
+        result.addAll(list2);\
+        return result.stream().distinct().collect(Collectors.toList());\
+    }\
+    // 1. 分词\
+    private static List<String> getSplitWords(String sentence) {\
+        // 标点符号会被单独分为一个Term，去除之\
+      }}'
+        return this.str1
+      },
+      str124() {
+        this.str2 = 'package com.ruoyi.system.controller;\
+import com.hankcs.hanlp.HanLP;\
+import org.springframework.web.bind.annotation.RestController;\
+import java.util.ArrayList;\
+import java.util.Collections;\
+import java.util.List;\
+import java.util.Map;\
+import java.util.stream.Collectors;\
+@RestController\
+public class gonneng {\
+    public static String getSimilarity(String sentence1, String sentence2) {\
+        List<String> sent1Words = getSplitWords(sentence1);\
+        List<String> sent2Words = getSplitWords(sentence2);\
+        List<String> allWords = mergeList(sent1Words, sent2Words);\
+        int[] statistic1 = statistic(allWords, sent1Words);\
+        int[] statistic2 = statistic(allWords, sent2Words);\
+        // 向量A与向量B的点乘\
+        double dividend = 0;\
+        // 向量A所有维度值的平方相加\
+        double divisor1 = 0;\
+        // 向量B所有维度值的平方相加\
+        double divisor2 = 0;\
+        // 余弦相似度 算法\
+        for (int i = 0; i < statistic1.length; i++) {\
+            dividend += statistic1[i] * statistic2[i];\
+            divisor1 += Math.pow(statistic1[i], 2);\
+            divisor2 += Math.pow(statistic2[i], 2);\
+        }\
+        // 向量A与向量B的点乘 / （向量A所有维度值的平方相加后开方 * 向量B所有维度值的平方相加后开方）\
+        double A=dividend / (Math.sqrt(divisor1) * Math.sqrt(divisor2))*100;\
+        A= Math.round(A);\
+        String B= String.valueOf(A);\
+        B+="% ";\
+        return B;\
+    }\
+    // 3. 计算词频\
+    private static int[] statistic(List<String> allWords, List<String> sentWords) {\
+        int[] result = new int[allWords.size()];\
+        for (int i = 0; i < allWords.size(); i++) {\
+            // 返回指定集合中指定对象出现的次数\
+            result[i] = Collections.frequency(sentWords, allWords.get\(i));\
+        }\
+        return result;\
+    }\
+    // 2. 取并集\
+    private static List<String> mergeList(List<String> list1, \List<String> list2) {\
+        List<String> result = new ArrayList<>();\
+        result.addAll(list1);\
+        result.addAll(list2);\
+        return result.stream().distinct().collect(Collectors.toList());}'
+        return this.str2
+      },
+    },
 
     created() {
       this.getList();
     },
     methods: {
+      difference() {
+        this.open1 = true
+        this.str1 = ""
+        this.str2 = ""
+      },
       diff() {
         window.open(this.url)
       },
@@ -191,6 +319,7 @@
       // 取消按钮
       cancel() {
         this.open = false;
+        this.open1 = fasle;
         this.reset();
       },
       // 表单重置
@@ -238,6 +367,7 @@
           var c = filterList.map(item => item.fileRows)
           var b = filterList.map(item => item.fileId)
           d = filterList.map(item => item.filePath)//文件路径
+          console.log(d)
           this.form.filenewpath = d
           var number = parseInt(res)
           number = number / 100

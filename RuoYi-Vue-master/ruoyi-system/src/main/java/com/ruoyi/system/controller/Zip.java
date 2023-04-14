@@ -12,7 +12,7 @@ public class Zip{
     static int num=0;
 
     public static String getstr(String filepath) throws IOException {
-        String str1="";
+        StringBuilder str1= new StringBuilder();
         //获取文件输入流
         FileInputStream input = new FileInputStream(filepath);
 
@@ -34,18 +34,18 @@ public class Zip{
             //内容不为空，输出
             while ((line = br.readLine()) != null) {
                 num+=1;
-                str1+=line;
+                str1.append(line);
             }
         }
 
         //一定记得关闭流
         zipInputStream.closeEntry();
         input.close();
-        return str1;
+        return str1.toString();
     }
 
     public static String getstr1(String filepath) throws IOException {
-        String str1="";
+        StringBuilder str1= new StringBuilder();
         //获取文件输入流
         FileInputStream input = new FileInputStream(filepath);
 
@@ -66,14 +66,14 @@ public class Zip{
 
             //内容不为空，输出
             while ((line = br.readLine()) != null) {
-                str1+=line;
+                str1.append(line);
             }
         }
 
         //一定记得关闭流
         zipInputStream.closeEntry();
         input.close();
-        return str1;
+        return str1.toString();
     }
     public static int getrow() throws IOException {
         return num;
