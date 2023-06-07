@@ -33,16 +33,13 @@
           <el-button type="warning" plain icon="el-icon-download" size="mini" @click="push">代码分析</el-button>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="primary" plain icon="el-icon-download" size="mini" @click="jiage">价格计算</el-button>
-        </el-col>
-        <el-col :span="1.5">
-          <el-button type="primary" plain icon="el-icon-download" size="mini" @click="diff">代码溯源</el-button>
-        </el-col>
-        <el-col :span="1.5">
           <el-button type="primary" plain icon="el-icon-download" size="mini" @click="difference">代码差异分析</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button type="primary" plain icon="el-icon-download" size="mini" @click="go">文件详细信息</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button type="primary" plain icon="el-icon-download" size="mini" @click="diff">代码溯源</el-button>
         </el-col>
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>

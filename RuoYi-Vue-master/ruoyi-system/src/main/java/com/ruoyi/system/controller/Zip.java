@@ -69,7 +69,7 @@ public class Zip{
             while ((line = br.readLine()) != null) {
                 str1+=(line);
             }
-        }
+        }              
 
         //一定记得关闭流
         zipInputStream.closeEntry();

@@ -65,10 +65,10 @@
                 },
                 UE: 50510.5,
                 obj: {
-                    input: 1,
-                    input1: 1,
+                    input: 1.1,
+                    input1: 1.8,
                     input2: 1,
-                    input3: 1,
+                    input3: 0.9,
                 },
                 AE: 50510.5,
                 AE1: 50510.5,
