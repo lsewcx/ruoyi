@@ -40,3 +40,4 @@ create table lse1
 
 # 高阶应用
 查看https://blog.csdn.net/weixin_61845680/article/details/127269927
+http://doc.ruoyi.vip/ruoyi-vue/本项目为前后端分离版
